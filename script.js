@@ -152,15 +152,74 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchBtn = document.getElementById('search-btn');
     const tabs = document.querySelectorAll('.tab');
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
+    const gridViewBtn = document.getElementById('grid-view');
+    const listViewBtn = document.getElementById('list-view');
+    const loader = document.querySelector('.loader');
+
+    // Hide loader after a short delay to simulate loading
+    setTimeout(() => {
+        loader.style.display = 'none';
+        renderWebsites(websites);
+        // Set first tab as active by default
+        const firstTab = document.querySelector('.tab');
+        if (firstTab) {
+            firstTab.classList.add('active');
+            filterByCategory(firstTab.dataset.category);
+        }
+    }, 800);
+
+    // View switching functionality
+    gridViewBtn.addEventListener('click', function() {
+        if (!this.classList.contains('active')) {
+            listViewBtn.classList.remove('active');
+            this.classList.add('active');
+            sitesContainer.classList.remove('list-view');
+            sitesContainer.classList.add('grid-view');
+            // Re-render to update layout
+            const activeTab = document.querySelector('.tab.active');
+            if (activeTab) {
+                filterByCategory(activeTab.dataset.category);
+            } else {
+                renderWebsites(websites);
+            }
+        }
+    });
+
+    listViewBtn.addEventListener('click', function() {
+        if (!this.classList.contains('active')) {
+            gridViewBtn.classList.remove('active');
+            this.classList.add('active');
+            sitesContainer.classList.remove('grid-view');
+            sitesContainer.classList.add('list-view');
+            // Re-render to update layout
+            const activeTab = document.querySelector('.tab.active');
+            if (activeTab) {
+                filterByCategory(activeTab.dataset.category);
+            } else {
+                renderWebsites(websites);
+            }
+        }
+    });
 
     // Render website cards
     function renderWebsites(sites) {
         sitesContainer.innerHTML = '';
         
+        if (sites.length === 0) {
+            sitesContainer.innerHTML = `
+                <div class="no-results">
+                    <i class="fas fa-search"></i>
+                    <p>No websites found matching your search.</p>
+                </div>
+            `;
+            return;
+        }
+        
         sites.forEach(site => {
             const card = document.createElement('div');
             card.className = 'site-card';
             card.setAttribute('data-url', site.url);
+            card.setAttribute('data-category', site.category);
             
             card.innerHTML = `
                 <div class="site-icon">
@@ -178,10 +237,22 @@ document.addEventListener('DOMContentLoaded', function() {
             
             sitesContainer.appendChild(card);
         });
+        
+        // Add staggered animation
+        const cards = document.querySelectorAll('.site-card');
+        cards.forEach((card, index) => {
+            card.style.animationDelay = `${0.05 * (index % 10)}s`;
+        });
     }
 
-    // Initial render of all websites
-    renderWebsites(websites);
+    // Filter websites by category
+    function filterByCategory(category) {
+        const filteredSites = websites.filter(site => site.category === category);
+        renderWebsites(filteredSites);
+        
+        // Clear search input
+        searchInput.value = '';
+    }
 
     // Search functionality
     function searchWebsites() {
@@ -210,22 +281,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const category = this.dataset.category;
             
             // Update tab states
-            if (this.classList.contains('active')) {
-                // If the tab is already active, deactivate it and show all websites
-                this.classList.remove('active');
-                renderWebsites(websites);
-            } else {
-                // Deactivate all tabs first
-                tabs.forEach(t => t.classList.remove('active'));
-                // Activate this tab
-                this.classList.add('active');
-                // Filter websites
-                const filteredSites = websites.filter(site => site.category === category);
-                renderWebsites(filteredSites);
-            }
+            tabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
             
-            // Clear search box
-            searchInput.value = '';
+            // Filter websites
+            filterByCategory(category);
         });
     });
 
@@ -269,7 +329,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Initialize card effects
-    addCardHoverEffects();
+    // addCardHoverEffects(); // This will be called after the loader is hidden
 
     // Re-add card effects when DOM changes
     const observer = new MutationObserver(function() {
@@ -277,4 +337,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     observer.observe(sitesContainer, { childList: true });
+    
+    // Add CSS class for initial view mode
+    sitesContainer.classList.add('grid-view');
 });

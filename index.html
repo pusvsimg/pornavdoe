@@ -5,7 +5,9 @@
     <title>HotLinks - Popular Sites Directory</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJsb2dvLWdyYWRpZW50IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZGIwMDIxIiAvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmNTQwMCIgLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0idXJsKCNsb2dvLWdyYWRpZW50KSIgLz48cGF0aCBkPSJNMzUgNDAgTDY1IDQwIEw2NSA2MCBMMzUgNjAiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIiAvPjxwYXRoIGQ9Ik01MCAzMCBMNTAgNzAiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiAvPjwvc3ZnPg==">
+    <meta name="description" content="Discover the web's hottest sites with HotLinks - your curated directory of popular websites across social, tech, shopping, video, news and tools categories.">
 </head>
 <body>
     <div class="container">
@@ -28,8 +30,9 @@
                 </div>
             </div>
             <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
                 <input type="text" id="search-input" placeholder="Search sites...">
-                <button id="search-btn"><i class="fas fa-search"></i></button>
+                <button id="search-btn"><i class="fas fa-arrow-right"></i></button>
             </div>
         </header>
 
@@ -42,14 +45,32 @@
             <button class="tab" data-category="tools">Tools</button>
         </div>
 
+        <div class="sites-header">
+            <h2>Popular Websites</h2>
+            <div class="view-options">
+                <button id="grid-view" class="view-btn active"><i class="fas fa-th-large"></i></button>
+                <button id="list-view" class="view-btn"><i class="fas fa-list"></i></button>
+            </div>
+        </div>
+
         <main id="sites-container">
             <!-- Website cards will be generated via JavaScript -->
+            <div class="loader">
+                <div class="spinner"></div>
+            </div>
         </main>
 
         <footer>
-            <p>&#169; 2023 HotLinks | Explore the web's finest destinations</p>
+            <div class="footer-content">
+                <p>&#169; 2023 HotLinks | Explore the web's finest destinations</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
             <div class="theme-toggle">
-                <button id="theme-toggle-btn"><i class="fas fa-moon"></i></button>
+                <button id="theme-toggle-btn" aria-label="Toggle dark/light mode"><i class="fas fa-moon"></i></button>
             </div>
         </footer>
     </div>
